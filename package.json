@@ -15,5 +15,18 @@
   "devDependencies": {
     "babel-preset-expo": "^5.0.0"
   },
-  "private": true
+  "private": true,
+  "name": "trippit-rn",
+  "description": "",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oshoubber/Trippit-RN.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oshoubber/Trippit-RN/issues"
+  },
+  "homepage": "https://github.com/oshoubber/Trippit-RN#readme"
 }

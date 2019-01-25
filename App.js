@@ -3,6 +3,8 @@ import { StyleSheet, Text, Image, View, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Font } from 'expo';
 
+const OButton = props => <Button Component={TouchableOpacity} buttonStyle={styles.buttonStyle} fontFamily='zillaSlabRegular' fontSize={20} {...props} />;
+
 export default class App extends React.Component {
   state = {
     fontLoaded: false,
@@ -29,10 +31,10 @@ export default class App extends React.Component {
 
         <View style={styles.buttonsContainer}>
           <View style={styles.buttonContainer}>
-            <Button title='Add items to your itinerary' buttonStyle={styles.buttonStyle} fontFamily='zillaSlabRegular' fontSize={20} Component={TouchableOpacity}></Button>
+            <OButton title='Add items to your itinerary'></OButton>
           </View>
           <View style={styles.buttonContainer}>
-            <Button title='Look for attractions nearby' buttonStyle={styles.buttonStyle} fontFamily='zillaSlabRegular' fontSize={20} Component={TouchableOpacity} ></Button>
+            <OButton title='Look for attractions nearby'></OButton>
           </View>
         </View>
       </View>
@@ -87,11 +89,16 @@ const styles = StyleSheet.create({
 
   // Object Style
   buttonStyle: {
+    shadowColor: 'rgba(0, 0, 0, 0.4)', // IOS
+    shadowOffset: { height: 1, width: 1 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 1, //IOS
+    elevation: 2, //Android
     alignItems:'center',
     justifyContent:'center',
     width:350,
     height:70,
-    backgroundColor:'#a3d7e3',
+    backgroundColor:'#80cbc4',
     borderRadius:100,
   }
 });
