@@ -31,10 +31,10 @@ export default class App extends React.Component {
 
         <View style={styles.buttonsContainer}>
           <View style={styles.buttonContainer}>
-            <OButton title='Add items to your itinerary'></OButton>
+            <OButton icon={{name: 'add-location'}} title='Add items to your itinerary'></OButton>
           </View>
           <View style={styles.buttonContainer}>
-            <OButton title='Look for attractions nearby'></OButton>
+            <OButton icon={{name: 'near-me'}} title='Look for attractions nearby'></OButton>
           </View>
         </View>
       </View>
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   },
 
   welconeTextContainer : {
-    marginBottom: 10,
+    marginBottom: 20,
   },
 
   buttonsContainer: {
