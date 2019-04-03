@@ -31,7 +31,7 @@ export default class Example extends React.Component{
           // available options: https://developers.google.com/places/web-service/autocomplete
           key: 'AIzaSyBSeAjau2wzgX8w26_EZ7lznh-mwKKThVc',
           language: 'en', // language of the results
-          types: ['business', 'cities'], // default: 'geocode'
+          types: ['establishment', 'cities'], // default: 'geocode'
         }}
         styles={{
           description: {
