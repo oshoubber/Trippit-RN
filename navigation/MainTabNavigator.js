@@ -3,50 +3,16 @@ import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
-import Front from '../screens/Front';
-import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
+import Home from '../screens/HomeScreen';
+import Search from '../screens/SearchScreen';
+import Lists from '../screens/ListsScreen';
+import Itineraries from '../screens/ItinerariesScreen';
 import SettingsScreen from '../screens/SettingsScreen';
-import Example from '../screens/search';
 
-const FrontStack = createStackNavigator({
-  Home: Front,
-});
 
-FrontStack.navigationOptions = {
-  tabBarLabel: 'Front',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
-    />
-  ),
-};
-
-const ExampleStack = createStackNavigator({
-  Search: Example,
-});
-
-ExampleStack.navigationOptions = {
-  tabBarLabel: 'Search',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
-    />
-  ),
-};
 
 const HomeStack = createStackNavigator({
-  Home: HomeScreen,
+  HomeScreen: Home,
 });
 
 HomeStack.navigationOptions = {
@@ -63,12 +29,48 @@ HomeStack.navigationOptions = {
   ),
 };
 
-const LinksStack = createStackNavigator({
-  Links: LinksScreen,
+const SearchStack = createStackNavigator({
+  SearchScreen: Search,
 });
 
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
+SearchStack.navigationOptions = {
+  tabBarLabel: 'Search',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === 'ios'
+          ? `ios-information-circle${focused ? '' : '-outline'}`
+          : 'md-information-circle'
+      }
+    />
+  ),
+};
+
+const ListsStack = createStackNavigator({
+  ListsScreen: Lists,
+});
+
+ListsStack.navigationOptions = {
+  tabBarLabel: 'Lists',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === 'ios'
+          ? `ios-information-circle${focused ? '' : '-outline'}`
+          : 'md-information-circle'
+      }
+    />
+  ),
+};
+
+const ItinerariesStack = createStackNavigator({
+  ItinerariesScreen: Itineraries,
+});
+
+ItinerariesStack.navigationOptions = {
+  tabBarLabel: 'Itineraries',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -92,9 +94,9 @@ SettingsStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
-  FrontStack,
-  ExampleStack,
   HomeStack,
-  LinksStack,
+  SearchStack,
+  ListsStack,
+  ItinerariesStack,
   SettingsStack,
 });
