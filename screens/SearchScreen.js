@@ -30,7 +30,7 @@ export default class SearchScreen extends React.Component{
           // console.log(details);
           // Store addresses and names
           addresses.push(details.formatted_address);
-          names.push(details.name);
+          names.push( {key: details.name} );
           
           // Send names array to Lists screen
           this.props.navigation.navigate('ListsScreen', {places: names});
