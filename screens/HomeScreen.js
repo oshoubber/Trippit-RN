@@ -7,32 +7,33 @@ import {
   TouchableOpacity 
 } from 'react-native';
 import { Button } from 'react-native-elements';
-import { Font } from 'expo';
-import { ZillaSlabText } from '../components/StyledText';
 
+// Define RNE button for more customizability
 const OButton = props => <Button Component={TouchableOpacity} buttonStyle={styles.buttonStyle} titleStyle={styles.buttonTitle} {...props} />;
 
 export default class HomeScreen extends React.Component {
-  static navigationOptions = {
-    header: null,
-  };
+  static navigationOptions = { header: null, };
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.imageContainer}>
           <Image source={require('../assets/img/icon.png')} style={{width: 250, height: 250}} />
         </View>
+
         <View style={styles.welcomeTextContainer}>
           <Text style={styles.welcomeText1}>Welcome to Trippit!</Text>
         </View>
-        <Text style={styles.welcomeText2}>Get started by adding items to your itinerary or looking for attractions in your area.</Text>
+        <Text style={styles.welcomeText2}>Get started by adding items to your 
+                                          itinerary or looking for attractions in your area.</Text>
 
         <View style={styles.buttonsContainer}>
           <View style={styles.buttonContainer}>
-            <OButton  icon={{name: 'location-on', color: "white"}} title='Add items to your itinerary'></OButton>
+            <OButton icon={{name: 'location-on', color: "white"}} 
+                     title='Add items to your itinerary'></OButton>
           </View>
           <View style={styles.buttonContainer}>
-            <OButton icon={{name: 'near-me', color: "white"}} title='Look for attractions nearby'></OButton>
+            <OButton icon={{name: 'near-me', color: "white"}} 
+                     title='Look for attractions nearby'></OButton>
           </View>
         </View>
       </View>

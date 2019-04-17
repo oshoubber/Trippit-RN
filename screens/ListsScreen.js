@@ -15,7 +15,7 @@ export default class ListsScreen extends React.Component {
 
   render() {
     const places = this.props.navigation.getParam('places', null);
-    console.log(places);
+    // console.log(places);
     if (places != null) {
       return ( // Return list if array is not empty
         <View style={styles.container}>
