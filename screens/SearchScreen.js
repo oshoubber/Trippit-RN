@@ -12,13 +12,13 @@ var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplet
 const homePlace = {description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
 let addresses = [];
 let names = [];
-let fsID = '';
 let params = [];
 let foursquare;
 
 export default class SearchScreen extends React.Component{
   static navigationOptions = { header: null, };
   render() {
+    let fsID = 'abc';
     return (
       <View style={styles.container}>
         <GooglePlacesAutocomplete
@@ -33,10 +33,13 @@ export default class SearchScreen extends React.Component{
           addresses.push(details.formatted_address);
           names.push({ key: details.name });
           this.setAPISettings();
-          this.getID()
-            .then((id) => { 
-              console.log(id);
+          // Async call to get hours
+          this.getVenueID().then(
+            (id) => { this.getHours(id).then(
+              (hours) =>  { console.log(hours.response.popular); 
+              });
             });
+
           // Send names array to Lists screen
           this.props.navigation.navigate('ListsScreen', {places: names});
         }}
@@ -86,7 +89,7 @@ export default class SearchScreen extends React.Component{
     foursquare = require('react-native-foursquare-api')({
       clientID: 'QNVY5NQTV2NNMBGU2OOKFIT5HNA1UL3TSI3TODNEI2KS5KJA',
       clientSecret: 'AGXX0YGUGXNJXPL32GS3DNWA0DZAM1BVTLUF2UYR2RKC1EI2',
-      style: 'foursquare', // default: 'foursquare'
+      style: 'foursquare',
       version: '20180323' //  default: '20180323'
     });
     
@@ -96,21 +99,28 @@ export default class SearchScreen extends React.Component{
     };
   }
 
-// https://api.foursquare.com/v2/venues/4abd4923f964a520718920e3/hours?client_id=QNVY5NQTV2NNMBGU2OOKFIT5HNA1UL3TSI3TODNEI2KS5KJA&client_secret=AGXX0YGUGXNJXPL32GS3DNWA0DZAM1BVTLUF2UYR2RKC1EI2&v=20180323&limit=1
- async getHours(id) {
-    let hours = await fetch(`https://api.foursquare.com/v2/venues/${id}/hours?client_id=QNVY5NQTV2NNMBGU2OOKFIT5HNA1UL3TSI3TODNEI2KS5KJA&client_secret=AGXX0YGUGXNJXPL32GS3DNWA0DZAM1BVTLUF2UYR2RKC1EI2&v=20180323&limit=1`);
-    return hours;
-  }
-  
-  async getID() {
-    await foursquare.venues.getVenues(params)
-      .then ((venues)  => {
-    		return venues.response.venues[0].id;
-    	})
-      .catch(function(err){
-        console.log(err);
+  // Async API Calls
+  getHours(id) { // Modified API to get this to work!
+    params = {venue_id: id,};
+    return new Promise(function(resolve, reject) {
+      foursquare.venues.getHours(params).then((hours) => {
+        resolve(hours);
+      }).catch((error) => {
+        reject("Error: Venue not found", error);
       });
+    });
   }
+  getVenueID() {
+    return new Promise(function(resolve, reject) {
+      foursquare.venues.getVenues(params).then((venues) => {
+        console.log(venues.response.venues[0].id);
+        resolve(venues.response.venues[0].id);
+      }).catch((error) => {
+        reject("Error: Venue not found", error);
+      });
+    });
+  }
+
 };
 
 const styles = StyleSheet.create({
