@@ -13,12 +13,12 @@ const homePlace = {description: 'Home', geometry: { location: { lat: 48.8152937,
 let addresses = [];
 let names = [];
 let params = [];
+let popHours = [];
 let foursquare;
 
 export default class SearchScreen extends React.Component{
   static navigationOptions = { header: null, };
   render() {
-    let fsID = 'abc';
     return (
       <View style={styles.container}>
         <GooglePlacesAutocomplete
@@ -36,12 +36,12 @@ export default class SearchScreen extends React.Component{
           // Async call to get hours
           this.getVenueID().then(
             (id) => { this.getHours(id).then(
-              (hours) =>  { console.log(hours.response.popular); 
+              (hours) =>  { 
+                popHours.push(hours.response.popular); // Push to popular hours array
+                // Send names, addresses, and hoursdata to ListsScreen
+                this.props.navigation.navigate('ListsScreen', {places: names, addresses: addresses, hours: popHours}); 
               });
             });
-
-          // Send names array to Lists screen
-          this.props.navigation.navigate('ListsScreen', {places: names});
         }}
         getDefaultValue={() => {
           return ''; // text input default value

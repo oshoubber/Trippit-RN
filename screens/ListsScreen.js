@@ -14,8 +14,13 @@ export default class ListsScreen extends React.Component {
   static navigationOptions = { header: null, };
 
   render() {
-    const places = this.props.navigation.getParam('places', null);
-    // console.log(places);
+    // Get all data from SearchScreen
+    const places = this.props.navigation.getParam('places', null); // Contains names of places
+    const addresses = this.props.navigation.getParam('addresses', null); // Contains addresses of places
+    const hours = this.props.navigation.getParam('hours', null); // Contains popular hours of places
+    console.log(places);
+    console.log(addresses);
+    console.log(hours);
     if (places != null) {
       return ( // Return list if array is not empty
         <View style={styles.container}>
