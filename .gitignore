@@ -1,6 +1,5 @@
 node_modules/**/*
 .expo/*
-!node_modules\react-native-foursquare-api\lib\api
 npm-debug.*
 *.jks
 *.p12
