@@ -40,46 +40,48 @@ export default class SearchScreen extends React.Component{
                 popHours.push(hours.response.popular); // Push to popular hours array
                 // Send names, addresses, and hoursdata to ListsScreen
                 this.props.navigation.navigate('ListsScreen', {places: names, addresses: addresses, hours: popHours}); 
+                this.props.navigation.navigate('ItinerariesScreen', {places: names, addresses: addresses, hours: popHours}); 
               });
             });
-        }}
-        getDefaultValue={() => {
-          return ''; // text input default value
-        }}
-        query={{
-          // available options: https://developers.google.com/places/web-service/autocomplete
-          key: 'AIzaSyBSeAjau2wzgX8w26_EZ7lznh-mwKKThVc',
-          language: 'en', // language of the results
-          types: ['establishment', 'cities'], // default: 'geocode'
-        }}
-        styles={{
-          description: {
-            fontWeight: 'bold',
-          },
-          predefinedPlacesDescription: {
-            color: '#1faadb',
-          },
-        }}
+          }}
+
+          getDefaultValue={() => {
+            return ''; // text input default value
+          }}
+          query={{
+            // available options: https://developers.google.com/places/web-service/autocomplete
+            key: 'AIzaSyBSeAjau2wzgX8w26_EZ7lznh-mwKKThVc',
+            language: 'en', // language of the results
+            types: ['establishment', 'cities'], // default: 'geocode'
+          }}
+          styles={{
+            description: {
+              fontWeight: 'bold',
+            },
+            predefinedPlacesDescription: {
+              color: '#1faadb',
+            },
+          }}
         
-        currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
-        currentLocationLabel="Current location"
-        nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
-        GoogleReverseGeocodingQuery={{
-          // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
-        }}
-        GooglePlacesSearchQuery={{
-          // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
-          rankby: 'distance',
-          types: 'food',
-        }}
-        GooglePlacesDetailsQuery={{
-          // available options for GooglePlacesDetails API : https://developers.google.com/places/web-service/details
-          fields: 'formatted_address',
-        }}
-        
-        filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-        predefinedPlaces={[homePlace]}
-        predefinedPlacesAlwaysVisible={true}
+          currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
+          currentLocationLabel="Current location"
+          nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+          GoogleReverseGeocodingQuery={{
+            // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+          }}
+          GooglePlacesSearchQuery={{
+            // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
+            rankby: 'distance',
+            types: 'food',
+          }}
+          GooglePlacesDetailsQuery={{
+            // available options for GooglePlacesDetails API : https://developers.google.com/places/web-service/details
+            fields: 'formatted_address',
+          }}
+          
+          filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+          predefinedPlaces={[homePlace]}
+          predefinedPlacesAlwaysVisible={true}
         />
       </View>
     );
