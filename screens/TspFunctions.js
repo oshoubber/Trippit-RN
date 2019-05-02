@@ -1,3 +1,4 @@
+// Helper functions for TSP Optimization
 const helpers = {
 
   _Path: function _Path(path, cost, utility, matrix){

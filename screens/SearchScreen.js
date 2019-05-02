@@ -42,7 +42,6 @@ export default class SearchScreen extends React.Component{
                   popHours.push(hours.response.popular); // Push to popular hours array
                   // Send names, addresses, and hoursdata to ListsScreen
                   this.props.navigation.navigate('ListsScreen', {places: names, addresses: addresses, hours: popHours, nList: nList}); 
-                  // this.props.navigation.navigate('ItinerariesScreen', {places: names, addresses: addresses, hours: popHours}); 
                 });
               });
             }
