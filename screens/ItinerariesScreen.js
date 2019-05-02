@@ -11,15 +11,13 @@ import {
   View,
   FlatList,
 } from 'react-native';
-let answer;
+// import helpers from './TspFunctions'
 let results;
 let resultsLength;
-let final_res = Number.MAX_VALUE;
 
 //get distance from one point to another
 function getDistance(start, end){
   return new Promise(function(resolve, reject){
-    //console.log("getting Distance");
     var distance = require('react-native-google-matrix');
       distance.get(
         {
@@ -28,13 +26,9 @@ function getDistance(start, end){
         },
       function(err, data) {
         if(err) reject(err);
-        //console.log(data);
         results = data;
-        //console.log("results length: " + results.length);
-        //console.log(results);
         resultsLength = results.length;
         resolve(data); 
-        
       }); 
     });
 }
@@ -48,9 +42,6 @@ export default class ItinerariesScreen extends React.Component {
     const places = this.props.navigation.getParam('places', null); // Contains names of places
     const addresses = this.props.navigation.getParam('addresses', null); // Contains addresses of places
     const hours = this.props.navigation.getParam('hours', null); // Contains popular hours of places
-    //console.log(places);
-    //console.log(addresses);
-    //console.log(hours);
     var utilityArray = uniformDistribute(1800, 3660, places);
 
     function utility(P, places, addresses){
@@ -121,7 +112,6 @@ export default class ItinerariesScreen extends React.Component {
 
     function greedyTSP(places, addresses){
       return new Promise(function(resolve){
-//console.log("greedyTSP");
       var empty = [[],[]];
       var initial = addresses[0];
       var startingarray = [];
@@ -210,7 +200,6 @@ export default class ItinerariesScreen extends React.Component {
 
     }
 
-
     function Path(path, cost, utility, matrix){
       this.path = path;
       this.cost = cost;
@@ -252,7 +241,6 @@ export default class ItinerariesScreen extends React.Component {
         resolve(perms);
       });
     }
-
 
     function permutate(perms){
       //console.log("permutating");
@@ -318,6 +306,8 @@ export default class ItinerariesScreen extends React.Component {
         return result;
       });
     }
+
+    
 
     if (places.length > 1) {
       console.log(main(places, addresses));

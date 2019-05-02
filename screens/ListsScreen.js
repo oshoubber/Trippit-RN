@@ -1,7 +1,5 @@
-
 import React from 'react';
 import {
-  Button,
   Image,
   Platform,
   ScrollView,
@@ -10,36 +8,8 @@ import {
   TouchableOpacity,
   View,
   FlatList,
+  Button,
 } from 'react-native';
-
-let results;
-let answer;
-let resultsLength;
-let final_res = Number.MAX_VALUE;
-
-//get distance from one point to another
-function getDistance(start, end){
-  return new Promise(function(resolve, reject){
-    //console.log("getting Distance");
-    var distance = require('react-native-google-matrix');
-      distance.get(
-        {
-          origins: start,
-          destinations: end
-        },
-      function(err, data) {
-        if(err) reject(err);
-        //console.log(data);
-        results = data;
-        //console.log("results length: " + results.length);
-        //console.log(results);
-        resultsLength = results.length;
-        resolve(data); 
-        
-      }); 
-    });
-}
-
 
 export default class ListsScreen extends React.Component {
   static navigationOptions = { header: null, };
@@ -49,11 +19,7 @@ export default class ListsScreen extends React.Component {
     const places = this.props.navigation.getParam('places', null); // Contains names of places
     const addresses = this.props.navigation.getParam('addresses', null); // Contains addresses of places
     const hours = this.props.navigation.getParam('hours', null); // Contains popular hours of places
-    //console.log(places);
-    //console.log(addresses);
-    //console.log(hours);
     if (places != null) {
-      
       return ( // Return list if array is not empty
         <View style={styles.container}>
           <FlatList style = {styles.listContainer}
@@ -62,9 +28,9 @@ export default class ListsScreen extends React.Component {
             extraData={ this.props.navigation }
             />
             <Button
-          title="Go to Itineraries!"
-          onPress={() => this.props.navigation.navigate('ItinerariesScreen')}
-          />
+              title="Go to Itineraries!"
+              onPress={() => this.props.navigation.navigate('ItinerariesScreen', {places: places, addresses: addresses, hours: hours})}
+            />
         </View>
       );
     } else {
