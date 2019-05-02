@@ -12,6 +12,7 @@ var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplet
 const homePlace = {description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
 let addresses = [];
 let names = [];
+let nList = [];
 let params = [];
 let popHours = [];
 let foursquare;
@@ -27,23 +28,25 @@ export default class SearchScreen extends React.Component{
           autoFocus={false}
           fetchDetails={true}
           onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-          // console.log(data);
-          // console.log(details);
-          // Store addresses and names
-          addresses.push(details.formatted_address);
-          names.push({ key: details.name });
-          this.setAPISettings();
-          // Async call to get hours
-          this.getVenueID().then(
-            (id) => { this.getHours(id).then(
-              (hours) =>  { 
-                popHours.push(hours.response.popular); // Push to popular hours array
-                // Send names, addresses, and hoursdata to ListsScreen
-                this.props.navigation.navigate('ListsScreen', {places: names, addresses: addresses, hours: popHours}); 
-                // this.props.navigation.navigate('ItinerariesScreen', {places: names, addresses: addresses, hours: popHours}); 
+          
+            // Store addresses and names
+            addresses.push(details.formatted_address);
+            names.push({ key: details.name });
+            nList.push(details.name);
+            this.setAPISettings();
+            
+            // Async call to get hours
+            this.getVenueID().then(
+              (id) => { this.getHours(id).then(
+                (hours) =>  { 
+                  popHours.push(hours.response.popular); // Push to popular hours array
+                  // Send names, addresses, and hoursdata to ListsScreen
+                  this.props.navigation.navigate('ListsScreen', {places: names, addresses: addresses, hours: popHours, nList: nList}); 
+                  // this.props.navigation.navigate('ItinerariesScreen', {places: names, addresses: addresses, hours: popHours}); 
+                });
               });
-            });
-          }}
+            }
+          }
 
           getDefaultValue={() => {
             return ''; // text input default value
