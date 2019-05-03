@@ -29,11 +29,19 @@ export default class HomeScreen extends React.Component {
         <View style={styles.buttonsContainer}>
           <View style={styles.buttonContainer}>
             <OButton icon={{name: 'location-on', color: "white"}} 
-                     title='Add items to your itinerary'></OButton>
+                     title='Add items to your itinerary'
+                     onPress = {() => {
+                      this.props.navigation.navigate('SearchScreen');
+                     }}
+                     ></OButton>
           </View>
           <View style={styles.buttonContainer}>
             <OButton icon={{name: 'near-me', color: "white"}} 
-                     title='Look for attractions nearby'></OButton>
+                     title='Look for attractions nearby'
+                     onPress = {() => {
+                      this.props.navigation.navigate('SearchScreen');
+                     }}
+                     ></OButton>
           </View>
         </View>
       </View>

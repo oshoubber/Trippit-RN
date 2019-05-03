@@ -329,7 +329,7 @@ export default class ListsScreen extends React.Component {
         <View style={styles.container}>
           <TextInput
           style = {{height : 30}}
-          placeholder = "Type in time format HH:MM (a.m./p.m.)"
+          placeholder = "Type in time format HH:MM"
           onChangeText = {input => this.setState({text: input})}
           />
           <FlatList style = {styles.listContainer}
