@@ -1,8 +1,15 @@
-# Trippit-RN
-Itinerary Generator/Optimizer for Senior Design
+# Trippit - Optimal Travel Itinerary
+SCU Senior Design
+Computer Science & Engineering
 
-expo start executes App.js and app.json
+# Introduction
+Trippit optimizes an itinerary (list of locations) based off travel time, time spent at location, and the popular times per location. Using a special optimization of the Traveling Salesman Problem, the algorithm will return the shortest path between an n number of locations.
 
-App.js calls AppNavigator(/navigation/AppNavigator) which is the app navigation file
+# Information
+Trippit is a mobile application built with React Native and tested through the Expo client.
 
-AppNavigator calls MainTabNavigator(/navigation/MainTabNavigator) which is the 
+# APIs
+## Foursquare Places API
+Used to get the popular hours of a given location.
+## Google Distance Matrix API
+Used to calculate distances between any two locations.
