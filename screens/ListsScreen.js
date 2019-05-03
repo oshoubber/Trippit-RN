@@ -5,6 +5,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
   FlatList,
@@ -35,6 +36,11 @@ function getDistance(start, end){
 
 export default class ListsScreen extends React.Component {
   static navigationOptions = { header: null, };
+
+  constructor(props) {
+    super(props);
+    this.state = {text: ''};
+  }
 
   render() {
     // Get all data from SearchScreen
@@ -321,6 +327,11 @@ export default class ListsScreen extends React.Component {
         
       return ( // Return list if array is not empty
         <View style={styles.container}>
+          <TextInput
+          style = {{height : 30}}
+          placeholder = "Type in time format HH:MM (a.m./p.m.)"
+          onChangeText = {input => this.setState({text: input})}
+          />
           <FlatList style = {styles.listContainer}
             data = { places }
             renderItem={({item}) => <Text style={styles.listText}>{item.key}</Text>}
@@ -333,7 +344,9 @@ export default class ListsScreen extends React.Component {
                   (result) => {
                     main(places, addresses).then(
                       (result) => {
-                        this.props.navigation.navigate('ItinerariesScreen', {result: result, places: places, nList: nList});
+                        console.log("user inputed text in listsscreen:", this.state.text);
+                        this.props.navigation.navigate('ItinerariesScreen', {result: result, places: places, nList: nList, textinput: this.state.text});
+                        
                       });
                     });
                 }
