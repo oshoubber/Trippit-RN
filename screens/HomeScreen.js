@@ -83,6 +83,8 @@ const styles = StyleSheet.create({
   buttonTitle: {
     fontFamily: 'montserratLight',
     fontSize: 18,
+    alignItems: 'center',
+    textAlign: 'center',
   },
 
   // Text Style
@@ -110,8 +112,7 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     width:350,
     height:70,
-    backgroundColor:'#80cbc4',
+    backgroundColor:'#1e88e5',
     borderRadius:100,
   }
-
 });

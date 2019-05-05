@@ -8,31 +8,14 @@ import {
   TouchableOpacity,
   View,
   FlatList,
-  Button,
 } from 'react-native';
-// import Toast from 'react-native-simple-toast';
+import { Button } from 'react-native-elements';
+
 
 let results;
 let resultsLength;
 let utilityArray;
-
-//get distance from one point to another
-function getDistance(start, end){
-  return new Promise(function(resolve, reject){
-    var distance = require('react-native-google-matrix');
-      distance.get(
-        {
-          origins: start,
-          destinations: end
-        },
-      function(err, data) {
-        if(err) reject(err);
-        results = data;
-        resultsLength = results.length;
-        resolve(data); 
-      }); 
-    });
-}
+const OButton = props => <Button Component={TouchableOpacity} buttonStyle={styles.buttonStyle} titleStyle={styles.buttonTitle} {...props} />;
 
 export default class ListsScreen extends React.Component {
   static navigationOptions = { title: 'Lists', };
@@ -341,20 +324,20 @@ export default class ListsScreen extends React.Component {
             renderItem={({item}) => <Text style={styles.listText}>{item.key}</Text>}
             extraData={ this.props.navigation }
           />
-          <Button
-            title="Go to Itineraries!"
-            onPress={() => {
-              getVal().then(
-                (result) => {
-                  main(places, addresses).then(
-                    (result) => {
-                      console.log("user inputed text in listsscreen:", this.state.text);
-                      this.props.navigation.navigate('ItinerariesScreen', {result: result, places: places, nList: nList, textinput: this.state.text});
+          <View style={styles.buttonContainer}>
+            <OButton title="Optimize itinerary!" onPress={() => {
+                getVal().then(
+                  (result) => {
+                    main(places, addresses).then(
+                      (result) => {
+                        console.log("user inputed text in listsscreen:", this.state.text);
+                        this.props.navigation.navigate('ItinerariesScreen', {result: result, places: places, nList: nList, textinput: this.state.text});
+                      });
                     });
-                  });
-              }
-            }
-          />
+                  }
+                }
+              />
+          </View>
         </View>
       );
     } else {
@@ -365,6 +348,23 @@ export default class ListsScreen extends React.Component {
       );
     }
   }
+}
+// Get distance from one point to another
+function getDistance(start, end){
+  return new Promise(function(resolve, reject){
+    var distance = require('react-native-google-matrix');
+      distance.get(
+        {
+          origins: start,
+          destinations: end
+        },
+      function(err, data) {
+        if(err) reject(err);
+        results = data;
+        resultsLength = results.length;
+        resolve(data); 
+      }); 
+    });
 }
 
 const styles = StyleSheet.create({
@@ -387,5 +387,31 @@ const styles = StyleSheet.create({
     fontFamily: 'montserratLight',
     fontSize: 20,
     paddingBottom: 12,   
+  },
+
+  buttonContainer: {
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  buttonTitle: {
+    fontFamily: 'montserratLight',
+    fontSize: 18,
+  },
+
+    // Object Style
+  buttonStyle: {
+    shadowColor: 'rgba(0, 0, 0, 0.4)', // IOS
+    shadowOffset: { height: 1, width: 1 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 1, //IOS
+    elevation: 2, //Android
+    alignItems:'center',
+    justifyContent:'center',
+    width:250,
+    height:40,
+    backgroundColor:'#1e88e5',
+    borderRadius:100,
   }
 });
