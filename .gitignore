@@ -1,7 +1,7 @@
 node_modules/**/*
 .expo/*
 !node_modules/react-native-foursquare-api/lib/api/*
-!node_modules/react-native-google-matrix/
+!node_modules/react-native-google-matrix/*
 npm-debug.*
 *.jks
 *.p12
