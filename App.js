@@ -35,6 +35,7 @@ export default class App extends React.Component {
         ...Icon.Ionicons.font,
         'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
         'montserratLight': require('./assets/fonts/Montserrat-Light.ttf'),
+        'montserratMedium': require('./assets/fonts/Montserrat-Medium.ttf'),
       }),
     ]);
   };

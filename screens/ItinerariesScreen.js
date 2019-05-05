@@ -44,114 +44,107 @@ export default class ItinerariesScreen extends React.Component {
     // const hours = this.props.navigation.getParam('hours', null); // Contains popular hours of places
 
     // Gets optimized list data in list and key: list form
-    let data = this.getOptimizedResult(names, results[0].path);
-    let time = results[1];
+    if(results) {
+      let data = this.getOptimizedResult(names, results[0].path);
+      let time = results[1];
 
-    var input = userinput;
-    var a = input.split(':');
-    var startingTime = (+a[0]) * 60 * 60 + (+a[1]) * 60;
+      var input = userinput;
+      var a = input.split(':');
+      var startingTime = (+a[0]) * 60 * 60 + (+a[1]) * 60;
 
-    //add starting time to the time list
-    for(var i = 0; i < time.length; i++){
-      time[i][0] += startingTime;
-      time[i][1] += startingTime;
-    }
-
-    //convert from seconds to hh:mm
-    for(var i = 0; i < time.length; i++){
-      var start = time[i][0];
-      var end = Number(time[i][1]);
-
-      var hs = Math.floor(start / 3600); //hours
-      var ms = Math.floor(start % 3600 / 60); //minutes
-      var hsms;
-
-      if(hs.toString(10).length == 1 || ms.toString(10).length == 1){
-        if(hs.toString(10).length == 1 && ms.toString(10).length == 1){
-          hsms = "0" + hs.toString(10) + ':' + '0' + ms.toString(10);
-        }
-        else if(hs.toString(10).length == 1 && ms.toString(10).length != 1){
-          hsms =  '0' + hs.toString(10) + ':' + ms.toString(10); //concat hh:mm
-        }
-        else if(hs.toString(10).length != 1 && ms.toString(10).length == 1){
-          hsms =  hs.toString(10) + ':' + "0" + ms.toString(10); //concat hh:mm
-        }
+      //add starting time to the time list
+      for(var i = 0; i < time.length; i++){
+        time[i][0] += startingTime;
+        time[i][1] += startingTime;
       }
-      else hsms =  hs.toString(10) + ':' + ms.toString(10); //concat hh:mm
+
+      //convert from seconds to hh:mm
+      for(var i = 0; i < time.length; i++){
+        var start = time[i][0];
+        var end = Number(time[i][1]);
+
+        var hs = Math.floor(start / 3600); //hours
+        var ms = Math.floor(start % 3600 / 60); //minutes
+        var hsms;
+
+        if(hs.toString(10).length == 1 || ms.toString(10).length == 1){
+          if(hs.toString(10).length == 1 && ms.toString(10).length == 1){
+            hsms = "0" + hs.toString(10) + ':' + '0' + ms.toString(10);
+          }
+          else if(hs.toString(10).length == 1 && ms.toString(10).length != 1){
+            hsms =  '0' + hs.toString(10) + ':' + ms.toString(10); //concat hh:mm
+          }
+          else if(hs.toString(10).length != 1 && ms.toString(10).length == 1){
+            hsms =  hs.toString(10) + ':' + "0" + ms.toString(10); //concat hh:mm
+          }
+        }
+        else hsms =  hs.toString(10) + ':' + ms.toString(10); //concat hh:mm
 
 
-      var he = Math.floor(end / 3600);
-      var me = Math.floor(end % 3600 / 60);
-      var heme;
-      if(he.toString(10).length == 1 || me.toString(10).length == 1){
-        if(he.toString(10).length == 1 && me.toString(10).length == 1){
-          heme = "0" + he.toString(10) + ':' + '0' + me.toString(10);
+        var he = Math.floor(end / 3600);
+        var me = Math.floor(end % 3600 / 60);
+        var heme;
+        if(he.toString(10).length == 1 || me.toString(10).length == 1){
+          if(he.toString(10).length == 1 && me.toString(10).length == 1){
+            heme = "0" + he.toString(10) + ':' + '0' + me.toString(10);
+          }
+          else if(he.toString(10).length == 1 && me.toString(10).length != 1){
+            heme =  '0' + he.toString(10) + ':' + me.toString(10); //concat hh:mm
+          }
+          else if(he.toString(10).length != 1 && me.toString(10).length == 1){
+            heme =  he.toString(10) + ':' + "0" + me.toString(10); //concat hh:mm
+          }
         }
-        else if(he.toString(10).length == 1 && me.toString(10).length != 1){
-          heme =  '0' + he.toString(10) + ':' + me.toString(10); //concat hh:mm
-        }
-        else if(he.toString(10).length != 1 && me.toString(10).length == 1){
-          heme =  he.toString(10) + ':' + "0" + me.toString(10); //concat hh:mm
-        }
+        else heme =  he.toString(10) + ':' + me.toString(10); //concat hh:mm
+
+        time[i][0] = hsms;
+        time[i][1] = heme;
       }
-      else heme =  he.toString(10) + ':' + me.toString(10); //concat hh:mm
 
-      time[i][0] = hsms;
-      time[i][1] = heme;
+      formattedTime = [];
+      //format time as string
+      for(var i = 0; i < time.length; i++){
+        var temp = time[i][0] + ' - ' + time[i][1];
+        formattedTime.push(temp);
+      }
+      //console.log(formattedTime);
+      //finalTime: formattedTime;
+
+      oNames = data[0];
+      oList = data[1];
+      formattedList = [];
+
+      //format list
+      for(var i = 0; i < oList.length - 1; i++){
+        var temp = oList[i].key + ' - ' + oList[i + 1].key;
+        formattedList.push(temp);
+        if(i == oList.length - 2) break;
+        formattedList.push(oList[i + 1].key);
+      }
+      
+      function timeobject(time){
+        this.key = time;
+      } 
+
+      function placeobject(place){
+        this.key = place;
+      }
+
+      //convert everything to an object to display
+      timeObjectList = [];
+      for(var i = 0; i < formattedTime.length; i++){
+        var temp = new timeobject(formattedTime[i]);
+        timeObjectList.push(temp);
+      }
+      console.log(timeObjectList);
+
+      placeObjectList = [];
+      for(var i = 0; i < formattedList.length; i++){
+        var temp = new placeobject(formattedList[i]);
+        placeObjectList.push(temp);
+      }
+      console.log(placeObjectList);
     }
-
-    formattedTime = [];
-    //format time as string
-    for(var i = 0; i < time.length; i++){
-      var temp = time[i][0] + ' - ' + time[i][1];
-      formattedTime.push(temp);
-    }
-    //console.log(formattedTime);
-    //finalTime: formattedTime;
-
-    oNames = data[0];
-    oList = data[1];
-    formattedList = [];
-
-    //format list
-    for(var i = 0; i < oList.length - 1; i++){
-      var temp = oList[i].key + ' - ' + oList[i + 1].key;
-      formattedList.push(temp);
-      if(i == oList.length - 2) break;
-      formattedList.push(oList[i + 1].key);
-    }
-    //console.log(formattedList);
-   // finalList: formattedList;
-   // console.log("objecT?,: ", finalList);
-
-    //console.log(oNames);
-    //console.log(oList);
-    //console.log("time params: ", time);
-    //console.log("user inputed time: ", userinput);
-    
-    function timeobject(time){
-      this.key = time;
-    } 
-
-    function placeobject(place){
-      this.key = place;
-    }
-
-    //convert everything to an object to display
-    timeObjectList = [];
-    for(var i = 0; i < formattedTime.length; i++){
-      var temp = new timeobject(formattedTime[i]);
-      timeObjectList.push(temp);
-    }
-    console.log(timeObjectList);
-
-    placeObjectList = [];
-    for(var i = 0; i < formattedList.length; i++){
-      var temp = new placeobject(formattedList[i]);
-      placeObjectList.push(temp);
-    }
-    console.log(placeObjectList);
-
     if (results != null) {
       return ( // Return list if array is not empty
         <View style={styles.container}>
@@ -170,14 +163,14 @@ export default class ItinerariesScreen extends React.Component {
       
     } else {
       return ( // Show that list is empty
-        <View style={styles.container} justifyContent= 'center'>
+        <View style={styles.container} alignItems='center' justifyContent='center'>
           <Text style={styles.emptyList}>Add more than one item to your list!</Text>
         </View>
       );
     }
   }
-
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -186,7 +179,7 @@ const styles = StyleSheet.create({
   },
   
   emptyList: {
-    fontFamily: 'montserratLight',
+    fontFamily: 'montserratMedium',
     fontSize: 30,
     textAlign: 'center',
   },
@@ -196,7 +189,7 @@ const styles = StyleSheet.create({
   },
   
   listTextleft: {
-    fontFamily: 'montserratLight',
+    fontFamily: 'montserratMedium',
     fontSize: 12,
     paddingBottom: 12,   
     justifyContent: 'flex-start',
@@ -205,7 +198,7 @@ const styles = StyleSheet.create({
   },
 
   listTextright: {
-    fontFamily: 'montserratLight',
+    fontFamily: 'montserratMedium',
     fontSize: 12,
     paddingBottom: 12,  
     justifyContent: 'flex-end',

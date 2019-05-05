@@ -10,19 +10,35 @@ import {
   FlatList,
 } from 'react-native';
 import { Button } from 'react-native-elements';
+import TimePicker from "react-native-24h-timepicker";
 
 
 let results;
 let resultsLength;
 let utilityArray;
-const OButton = props => <Button Component={TouchableOpacity} buttonStyle={styles.buttonStyle} titleStyle={styles.buttonTitle} {...props} />;
+const OButton = props => <Button Component={TouchableOpacity} buttonStyle={styles.oButtonStyle} titleStyle={styles.oButtonTitle} {...props} />;
+const TButton = props => <Button Component={TouchableOpacity} buttonStyle={styles.tButtonStyle} titleStyle={styles.tButtonTitle} {...props} />;
 
 export default class ListsScreen extends React.Component {
   static navigationOptions = { title: 'Lists', };
 
   constructor(props) {
     super(props);
-    this.state = {text: ''};
+    this.state = {
+      time: '00:00',
+      btnTitle: 'Set Departure Time: 00:00',
+    };
+  }
+
+  // Time Picker
+  onCancel() {
+    this.TimePicker.close();
+  }
+
+  onConfirm(hour, minute) {
+    this.setState({ time: `${hour}:${minute}` });
+    this.changeDepTime(`${hour}:${minute}`)
+    this.TimePicker.close();
   }
 
   render() {
@@ -280,8 +296,6 @@ export default class ListsScreen extends React.Component {
         if(places.length > 1){
           var finalTSP = greedyTSP(places, addresses);
           finalTSP.then((result) => {
-            // console.log("Final path is: ", result[0]);
-            // console.log("Final time intervals are: ", result[1]);
             resolve(result);
           });
         }
@@ -309,35 +323,39 @@ export default class ListsScreen extends React.Component {
     if (places != null) {
       let place = nList[nList.length-1];
       console.log(place);
-      // Toast.show('places');
-      
 
       return ( // Return list if array is not empty
         <View style={styles.container}>
-          <TextInput
-            style = {{height : 30}}
-            placeholder = "Type in time format HH:MM"
-            onChangeText = {input => this.setState({text: input})}
-          />
+          <View style={styles.timeContainer}>
+            <TButton title={this.state.btnTitle} onPress={() => {
+              this.TimePicker.open();
+            }
+              } />
+          </View>
           <FlatList style = {styles.listContainer}
             data = { places }
             renderItem={({item}) => <Text style={styles.listText}>{item.key}</Text>}
             extraData={ this.props.navigation }
           />
           <View style={styles.buttonContainer}>
-            <OButton title="Optimize itinerary!" onPress={() => {
+            <OButton title="Optimize itinerary" iconRight icon={{name: 'arrow-forward', color: "white"}} onPress={() => {
                 getVal().then(
                   (result) => {
                     main(places, addresses).then(
                       (result) => {
                         console.log("user inputed text in listsscreen:", this.state.text);
-                        this.props.navigation.navigate('ItinerariesScreen', {result: result, places: places, nList: nList, textinput: this.state.text});
+                        this.props.navigation.navigate('ItinerariesScreen', {result: result, places: places, nList: nList, textinput: this.state.time});
                       });
                     });
                   }
                 }
               />
           </View>
+            <TimePicker
+              ref={ref => { this.TimePicker = ref; }}
+              onCancel={() => this.onCancel()}
+              onConfirm={(hour, minute) => this.onConfirm(hour, minute)}
+            />
         </View>
       );
     } else {
@@ -347,6 +365,9 @@ export default class ListsScreen extends React.Component {
         </View>
       );
     }
+  }
+  changeDepTime(time) {
+    this.setState({btnTitle: 'Set Departure Time: ' + time}); 
   }
 }
 // Get distance from one point to another
@@ -372,6 +393,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+
+  timeContainer: {
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   
   emptyList: {
     fontFamily: 'montserratLight',
@@ -395,13 +422,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  buttonTitle: {
-    fontFamily: 'montserratLight',
+  oButtonTitle: {
+    fontFamily: 'montserratMedium',
     fontSize: 18,
   },
 
+  tButtonTitle: {
+    fontFamily: 'montserratMedium',
+    fontSize: 20,
+    color: '#1e88e5',
+  },
+
     // Object Style
-  buttonStyle: {
+  oButtonStyle: {
     shadowColor: 'rgba(0, 0, 0, 0.4)', // IOS
     shadowOffset: { height: 1, width: 1 }, // IOS
     shadowOpacity: 1, // IOS
@@ -413,5 +446,16 @@ const styles = StyleSheet.create({
     height:40,
     backgroundColor:'#1e88e5',
     borderRadius:100,
+  },
+
+  tButtonStyle: {
+    shadowOffset: { height: 1, width: 1 }, // IOS
+    alignItems:'center',
+    justifyContent:'center',
+    width:300,
+    height:40,
+    backgroundColor:'#fff',
+    borderRadius:100,
+    
   }
 });

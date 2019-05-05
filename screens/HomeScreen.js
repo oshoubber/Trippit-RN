@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 10,
   },
 
   imageContainer : {
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
   },
 
   buttonTitle: {
-    fontFamily: 'montserratLight',
+    fontFamily: 'montserratMedium',
     fontSize: 18,
     alignItems: 'center',
     textAlign: 'center',
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
 
   // Text Style
   welcomeText1: {
-    fontFamily: 'montserratLight',
+    fontFamily: 'montserratMedium',
     fontSize: 24,
   },
 
