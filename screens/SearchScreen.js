@@ -9,7 +9,8 @@ import {
   StyleSheet
 } from 'react-native';
 var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
-const homePlace = {description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
+import Toast from 'react-native-whc-toast'
+// const homePlace = {description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
 let addresses = [];
 let names = [];
 let nList = [];
@@ -18,17 +19,17 @@ let popHours = [];
 let foursquare;
 
 export default class SearchScreen extends React.Component{
-  static navigationOptions = { header: null, };
+  static navigationOptions = { title: 'Search', };
   render() {
     return (
       <View style={styles.container}>
         <GooglePlacesAutocomplete
-          placeholder='Search'
+          ref={c => this.googlePlacesAutocomplete = c}
+          placeholder='Search for locations to add to itinerary'
           minLength={2} // minimum length of text to search
-          autoFocus={false}
+          autoFocus={true}
           fetchDetails={true}
           onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-          
             // Store addresses and names
             addresses.push(details.formatted_address);
             names.push({ key: details.name });
@@ -44,6 +45,7 @@ export default class SearchScreen extends React.Component{
                   this.props.navigation.navigate('ListsScreen', {places: names, addresses: addresses, hours: popHours, nList: nList}); 
                 });
               });
+              this.googlePlacesAutocomplete._handleChangeText('');
             }
           }
 
@@ -57,16 +59,30 @@ export default class SearchScreen extends React.Component{
             types: ['establishment', 'cities'], // default: 'geocode'
           }}
           styles={{
+            textInputContainer: {
+              backgroundColor: 'rgba(0,0,0,0)',
+              borderTopWidth: 0,
+              borderBottomWidth: 0,
+              height: 60,
+            },
+            textInput: {
+              marginLeft: 0,
+              marginRight: 0,
+              height: 42,
+              color: '#5d5d5d',
+              fontSize: 20,
+            },
             description: {
-              fontWeight: 'bold',
+              fontWeight: 'normal',
+              fontSize: 16,
             },
             predefinedPlacesDescription: {
               color: '#1faadb',
             },
           }}
         
-          currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
-          currentLocationLabel="Current location"
+          // currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
+          // currentLocationLabel="Current location"
           nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
           GoogleReverseGeocodingQuery={{
             // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
@@ -82,7 +98,7 @@ export default class SearchScreen extends React.Component{
           }}
           
           filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-          predefinedPlaces={[homePlace]}
+          // predefinedPlaces={[homePlace]}
           predefinedPlacesAlwaysVisible={true}
         />
       </View>
@@ -114,6 +130,7 @@ export default class SearchScreen extends React.Component{
       });
     });
   }
+
   getVenueID() {
     return new Promise(function(resolve, reject) {
       foursquare.venues.getVenues(params).then((venues) => {
@@ -124,13 +141,12 @@ export default class SearchScreen extends React.Component{
       });
     });
   }
-
 };
 
+// Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    marginTop: 40,
   },
 });

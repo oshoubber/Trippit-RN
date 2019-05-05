@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Image,
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -11,6 +10,7 @@ import {
   FlatList,
   Button,
 } from 'react-native';
+// import Toast from 'react-native-simple-toast';
 
 let results;
 let resultsLength;
@@ -35,7 +35,7 @@ function getDistance(start, end){
 }
 
 export default class ListsScreen extends React.Component {
-  static navigationOptions = { header: null, };
+  static navigationOptions = { title: 'Lists', };
 
   constructor(props) {
     super(props);
@@ -324,34 +324,37 @@ export default class ListsScreen extends React.Component {
     }
 
     if (places != null) {
-        
+      let place = nList[nList.length-1];
+      console.log(place);
+      // Toast.show('places');
+      
+
       return ( // Return list if array is not empty
         <View style={styles.container}>
           <TextInput
-          style = {{height : 30}}
-          placeholder = "Type in time format HH:MM"
-          onChangeText = {input => this.setState({text: input})}
+            style = {{height : 30}}
+            placeholder = "Type in time format HH:MM"
+            onChangeText = {input => this.setState({text: input})}
           />
           <FlatList style = {styles.listContainer}
             data = { places }
             renderItem={({item}) => <Text style={styles.listText}>{item.key}</Text>}
             extraData={ this.props.navigation }
-            />
-            <Button
-              title="Go to Itineraries!"
-              onPress={() => {
-                getVal().then(
-                  (result) => {
-                    main(places, addresses).then(
-                      (result) => {
-                        console.log("user inputed text in listsscreen:", this.state.text);
-                        this.props.navigation.navigate('ItinerariesScreen', {result: result, places: places, nList: nList, textinput: this.state.text});
-                        
-                      });
+          />
+          <Button
+            title="Go to Itineraries!"
+            onPress={() => {
+              getVal().then(
+                (result) => {
+                  main(places, addresses).then(
+                    (result) => {
+                      console.log("user inputed text in listsscreen:", this.state.text);
+                      this.props.navigation.navigate('ItinerariesScreen', {result: result, places: places, nList: nList, textinput: this.state.text});
                     });
-                }
+                  });
               }
-            />
+            }
+          />
         </View>
       );
     } else {
@@ -368,7 +371,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    marginTop: 40,
   },
   
   emptyList: {

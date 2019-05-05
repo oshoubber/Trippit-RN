@@ -15,7 +15,7 @@ import {
 
 
 export default class ItinerariesScreen extends React.Component {
-  static navigationOptions = { header: null, };
+  static navigationOptions = { title: 'Itineraries', };
 
   // Formats Optimized Itinerary Arrays
   getOptimizedResult(n, r) {
@@ -182,7 +182,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    marginTop: 40,
     flexDirection: 'row',
   },
   
