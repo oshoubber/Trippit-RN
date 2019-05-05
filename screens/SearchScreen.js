@@ -9,7 +9,7 @@ import {
   StyleSheet
 } from 'react-native';
 var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
-import Toast from 'react-native-whc-toast'
+
 // const homePlace = {description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
 let addresses = [];
 let names = [];
