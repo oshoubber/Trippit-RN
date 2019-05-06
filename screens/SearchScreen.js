@@ -6,7 +6,8 @@
 import React from 'react';
 import {
   View,
-  StyleSheet
+  StyleSheet,
+  ActivityIndicator,
 } from 'react-native';
 var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
 
@@ -19,6 +20,13 @@ let popHours = [];
 let foursquare;
 
 export default class SearchScreen extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      animating: false
+    };
+  }
+
   static navigationOptions = { title: 'Search', };
   render() {
     return (
@@ -43,9 +51,11 @@ export default class SearchScreen extends React.Component{
                   popHours.push(hours.response.popular); // Push to popular hours array
                   // Send names, addresses, and hoursdata to ListsScreen
                   this.props.navigation.navigate('ListsScreen', {places: names, addresses: addresses, hours: popHours, nList: nList}); 
+                  this.setState({animating: false});
                 });
               });
               this.googlePlacesAutocomplete._handleChangeText('');
+              this.setState({animating: true});
             }
           }
 
@@ -101,6 +111,11 @@ export default class SearchScreen extends React.Component{
           // predefinedPlaces={[homePlace]}
           predefinedPlacesAlwaysVisible={true}
         />
+        <ActivityIndicator
+          animating = {this.state.animating}
+          color = '#1e88e5'
+          size = "large"
+          style = {styles.activityIndicator}/>
       </View>
     );
   }
@@ -149,4 +164,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  activityIndicator: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 80
+ },
 });

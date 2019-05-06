@@ -179,9 +179,10 @@ const styles = StyleSheet.create({
   },
   
   emptyList: {
-    fontFamily: 'montserratMedium',
+    fontFamily: 'montserratLight',
     fontSize: 30,
     textAlign: 'center',
+    padding: 8,
   },
 
   listContainer: {

@@ -4,7 +4,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
+  ActivityIndicator,
   TouchableOpacity,
   View,
   FlatList,
@@ -27,6 +27,7 @@ export default class ListsScreen extends React.Component {
     this.state = {
       time: '00:00',
       btnTitle: 'Set Departure Time: 00:00',
+      animating: false,
     };
   }
 
@@ -338,13 +339,20 @@ export default class ListsScreen extends React.Component {
             extraData={ this.props.navigation }
           />
           <View style={styles.buttonContainer}>
+          <ActivityIndicator
+            animating = {this.state.animating}
+              color = '#1e88e5'
+              size = "large"
+              style = {styles.activityIndicator}/>
             <OButton title="Optimize itinerary" iconRight icon={{name: 'arrow-forward', color: "white"}} onPress={() => {
+                this.setState({animating: true});
                 getVal().then(
                   (result) => {
                     main(places, addresses).then(
                       (result) => {
                         console.log("user inputed text in listsscreen:", this.state.text);
                         this.props.navigation.navigate('ItinerariesScreen', {result: result, places: places, nList: nList, textinput: this.state.time});
+                        this.setState({animating: false});
                       });
                     });
                   }
@@ -404,6 +412,7 @@ const styles = StyleSheet.create({
     fontFamily: 'montserratLight',
     fontSize: 30,
     textAlign: 'center',
+    padding: 8,
   },
 
   listContainer: {
@@ -420,6 +429,8 @@ const styles = StyleSheet.create({
     padding: 10,
     justifyContent: 'center',
     alignItems: 'center',
+    // position: 'absolute',
+    bottom:0,
   },
 
   oButtonTitle: {
@@ -457,5 +468,10 @@ const styles = StyleSheet.create({
     backgroundColor:'#fff',
     borderRadius:100,
     
-  }
+  },
+  activityIndicator: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 80
+ },
 });
